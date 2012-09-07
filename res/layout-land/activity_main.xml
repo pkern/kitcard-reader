@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/balances_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:paddingLeft="16sp"
+        android:paddingRight="32sp"
+        android:paddingTop="16sp" >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/balance"
+            android:textAppearance="@style/HeadingTextAppearance" />
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="right"
+            android:text="0.00 €"
+            android:textAppearance="@style/BalanceTextAppearance" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="24sp"
+            android:text="@string/last_transaction"
+            android:textAppearance="@style/HeadingTextAppearance" />
+
+        <TextView
+            android:id="@+id/lasttransaction"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="0.00 €"
+            android:textAppearance="@style/BalanceSmallTextAppearance" />
+    </LinearLayout>
+
+</RelativeLayout>

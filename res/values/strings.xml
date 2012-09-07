@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">KITCard Reader</string>
+    <!-- <string name="menu_settings">Settings</string> -->
+
+    <!-- Main activity -->
+    <string name="card_number">Card number</string>
+    <string name="balance">Balance</string>
+    <string name="last_transaction">Last transaction</string>
+    <string name="card_type">Card type</string>
+    <string name="details">Details</string>
+
+    <!-- Card types -->
+    <string name="student">Student</string>
+    <string name="employee">Employee</string>
+    <string name="guest">Guest</string>
+    <string name="unknown">Unknown</string>
+
+    <!-- Messages -->
+	<string name="activate_nfc">Please activate NFC and press Back to return to the application!</string>
+	<string name="kitcard_read_failed">KITCard reading failed!</string>
+</resources>
