@@ -28,10 +28,6 @@ package de.Ox539.kitcard.reader;
  * @author Philipp Kern <pkern@debian.org>
  */
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.os.AsyncTask;
@@ -62,10 +58,10 @@ public class ReadCardTask extends AsyncTask<Tag, Integer, Wallet> {
     		Toast.makeText(mActivity, mActivity.getResources().getString(R.string.kitcard_read_failed), Toast.LENGTH_LONG).show();
     		return;
     	}
-    	final NumberFormat form = DecimalFormat.getCurrencyInstance(Locale.GERMANY);
+
    		mActivity.updateCardNumber(wallet.getCardNumber());
-		mActivity.updateBalance(form.format(wallet.getCurrentBalance()));
-		mActivity.updateLastTransaction(form.format(wallet.getLastTransactionValue()));
+		mActivity.updateBalance(wallet.getCurrentBalance());
+		mActivity.updateLastTransaction(wallet.getLastTransactionValue());
 		mActivity.updateCardType(wallet.getCardType());
     }
 }

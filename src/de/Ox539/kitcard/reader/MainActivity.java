@@ -37,10 +37,13 @@ public class MainActivity extends Activity {
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFiltersArray;
     private String[][] techListsArray;
+    private EuroFormat euroFormat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        euroFormat = new EuroFormat();
+
         pendingIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         final IntentFilter intentFilter = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
@@ -70,7 +73,7 @@ public class MainActivity extends Activity {
     	super.onResume();
 
     	if(balance == null)
-    		updateBalance("0,00 €");
+    		updateBalance(0.0);
     	if(lastTransaction == null)
     		updateLastTransaction("");
 
@@ -112,10 +115,18 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void updateBalance(double value) {
+    	updateBalance(euroFormat.format(value));
+    }
+
     public void updateBalance(String text) {
     	TextView tv = (TextView)findViewById(R.id.balance);
     	tv.setText(text);
     	balance = text;
+    }
+
+    public void updateLastTransaction(double value) {
+    	updateLastTransaction(euroFormat.format(value));
     }
 
     public void updateLastTransaction(String text) {
