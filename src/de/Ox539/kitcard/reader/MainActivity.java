@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
     }
 
     public void updateLastTransaction(double value) {
-    	updateLastTransaction(euroFormat.format(value));
+    	updateLastTransaction(euroFormat.formatPrefixed(value));
     }
 
     public void updateLastTransaction(String text) {

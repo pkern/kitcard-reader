@@ -61,4 +61,17 @@ public class EuroFormat {
 	public String format(double value) {
 		return currencyFormat.format(value);
 	}
+
+	public String formatPrefixed(double value) {
+		// XXX: This works with English and German but probably not with
+		// other locales. getPositivePrefix does contain the currency
+		// and the sign rules cannot be fetched programatically.
+		if(value < 0) {
+			return "- " + currencyFormat.format(-value);
+		} else if(value == 0) {
+			return currencyFormat.format(value);
+		} else {
+			return "+ " + currencyFormat.format(value);
+		}
+	}
 }
