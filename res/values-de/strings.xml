@@ -18,4 +18,5 @@
     <!-- Messages -->
 	<string name="activate_nfc">Bitte aktiviere NFC und drücke Zurück, um zur Applikation zurückzukehren!</string>
 	<string name="kitcard_read_failed">Das Lesen der KITCard ist fehlgeschlagen!</string>
+	<string name="kitcard_needs_reencode">Diese KITCard muss zur weiteren Benutzung umkodiert werden.</string>
 </resources>

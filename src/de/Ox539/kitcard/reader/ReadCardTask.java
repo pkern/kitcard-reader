@@ -28,12 +28,13 @@ package de.Ox539.kitcard.reader;
  * @author Philipp Kern <pkern@debian.org>
  */
 
+import de.Ox539.kitcard.reader.Wallet.ReadCardResult;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-public class ReadCardTask extends AsyncTask<Tag, Integer, Wallet> {
+public class ReadCardTask extends AsyncTask<Tag, Integer, Pair<ReadCardResult, Wallet>> {
 	private MainActivity mActivity;
 
 	public ReadCardTask(MainActivity activity) {
@@ -41,24 +42,29 @@ public class ReadCardTask extends AsyncTask<Tag, Integer, Wallet> {
 		this.mActivity = activity;
 	}
 
-	protected Wallet doInBackground(Tag... tags) {
+	protected Pair<ReadCardResult, Wallet> doInBackground(Tag... tags) {
 		MifareClassic card = MifareClassic.get(tags[0]);
 		if(card == null)
-			return null;
+			return new Pair<ReadCardResult, Wallet>(null, null);
 
 		final Wallet wallet = new Wallet(card);
-		if(!wallet.readCard())
-			return null;
-		return wallet;
+		final ReadCardResult result = wallet.readCard();
+		return new Pair<ReadCardResult, Wallet>(result, wallet);
 	}
 
-    protected void onPostExecute(Wallet wallet) {
-    	if(wallet == null) {
+    protected void onPostExecute(Pair<ReadCardResult, Wallet> data) {
+    	ReadCardResult result = data.getValue0();
+    	if(result == ReadCardResult.FAILURE) {
     		// read failed
     		Toast.makeText(mActivity, mActivity.getResources().getString(R.string.kitcard_read_failed), Toast.LENGTH_LONG).show();
     		return;
+    	} else if(result == ReadCardResult.OLD_STYLE_WALLET) {
+    		// old-style wallet encountered
+    		Toast.makeText(mActivity, mActivity.getResources().getString(R.string.kitcard_needs_reencode), Toast.LENGTH_LONG).show();
+    		return;
     	}
 
+    	final Wallet wallet = data.getValue1();
    		mActivity.updateCardNumber(wallet.getCardNumber());
 		mActivity.updateBalance(wallet.getCurrentBalance());
 		mActivity.updateLastTransaction(wallet.getLastTransactionValue());

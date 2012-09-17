@@ -36,18 +36,27 @@ package de.Ox539.kitcard.reader;
  */
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.nfc.tech.MifareClassic;
 import android.util.Log;
 
 public class Wallet {
+	enum ReadCardResult {
+		SUCCESS,
+		FAILURE,
+		OLD_STYLE_WALLET;
+	}
+
 	private static final String LOG_TAG = "KITCard Reader";
 	private static final byte[] CARD_NUMBER_KEY = {(byte)0x56, (byte)0x38, (byte)0x9f, (byte)0x80, (byte)0xa5, (byte)0xcf};
 	private static final byte[] WALLET_KEY = MifareClassic.KEY_MIFARE_APPLICATION_DIRECTORY;
 	private static final int WALLET_TCOUNT_KEY = 0x0404;
 	private static final int WALLET_FCC = 23;
 	private static final int WALLET_AC = 137;
+	private static final int WALLET_OLD_FCC = 3;
+	private static final int WALLET_OLD_AC = 56;
 
 	private final MifareClassic card;
 	private String cardNumber;
@@ -59,7 +68,7 @@ public class Wallet {
 		this.card = card;
 	}
 
-	public boolean readCard() {
+	public ReadCardResult readCard() {
 		try {
 			try {
 				if(!card.isConnected()) {
@@ -71,10 +80,21 @@ public class Wallet {
 						Log.e(LOG_TAG, "Authentication with sector 11 failed");
 					}
 					final MifareMad mad = new MifareMad(card);
-					int sector = mad.getSectorList(WALLET_FCC, WALLET_AC).get(0);
+					final ArrayList<Integer> sectorList = mad.getSectorList(WALLET_FCC, WALLET_AC);
+					if(sectorList.size() != 1) {
+						// Either not a card with a KITCard wallet or an
+						// old-style card, let's check.
+						if(mad.getSectorList(WALLET_OLD_FCC, WALLET_OLD_AC).size() == 2) {
+							Log.e(LOG_TAG, "Old-style wallet found, needs reencoding.");
+							return ReadCardResult.OLD_STYLE_WALLET;
+						}
+						Log.e(LOG_TAG, "No wallet data found (neither new- nor old-style), not a KITCard?");
+						return ReadCardResult.FAILURE;
+					}
+					int sector = sectorList.get(0);
 					if(!card.authenticateSectorWithKeyA(sector, WALLET_KEY)) {
 						Log.e(LOG_TAG, String.format("Authentication with sector %d (wallet) failed", sector));
-						return false;
+						return ReadCardResult.FAILURE;
 					}
 					parseWalletData(
 							card.readBlock(card.sectorToBlock(sector)),
@@ -85,10 +105,10 @@ public class Wallet {
 			} finally {
 				card.close();
 			}
-			return true;
+			return ReadCardResult.SUCCESS;
 		} catch(IOException e) {
 			Log.e(LOG_TAG, "IOException caught: " + e.toString());
-			return false;
+			return ReadCardResult.FAILURE;
 		}
 	}
 

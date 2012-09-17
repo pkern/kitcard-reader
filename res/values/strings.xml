@@ -18,4 +18,5 @@
     <!-- Messages -->
 	<string name="activate_nfc">Please activate NFC and press Back to return to the application!</string>
 	<string name="kitcard_read_failed">KITCard reading failed!</string>
+	<string name="kitcard_needs_reencode">Your KITCard needs to be converted to the new format for further use.</string>
 </resources>
