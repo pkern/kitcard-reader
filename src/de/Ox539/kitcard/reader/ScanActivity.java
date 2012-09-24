@@ -32,7 +32,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class ScanActivity extends Activity {
 	private NfcAdapter adapter;
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFiltersArray;
@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
         intentFiltersArray = new IntentFilter[] { intentFilter };
         techListsArray = new String[][] { new String[] { MifareClassic.class.getName() } };
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_scan);
         resolveIntent(getIntent());
         setTitle(getResources().getString(R.string.app_name));
         NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.activity_scan, menu);
         return true;
     }
 
@@ -87,12 +87,18 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
     	super.onResume();
+
+    	// Debugger safeguard.
+    	if(adapter == null)
+    		return;
+
     	adapter.disableForegroundDispatch(this);
     }
 
     private void resolveIntent(Intent intent) {
     	String action = intent.getAction();
-    	if (!NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
+    	if (!NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) &&
+    			!action.equals("de.Ox539.kitcard.reader.TECH_DISCOVERED")) {
     		// Not a tag invocation.
         	return;
         }

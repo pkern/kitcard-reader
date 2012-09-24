@@ -1,6 +1,8 @@
 <resources>
+
     <string name="app_name">KITCard Reader</string>
     <!-- <string name="menu_settings">Settings</string> -->
+
 
     <!-- Main activity -->
     <string name="card_number">Card number</string>
@@ -16,7 +18,9 @@
     <string name="unknown">Unknown</string>
 
     <!-- Messages -->
-	<string name="activate_nfc">Please activate NFC and press Back to return to the application!</string>
-	<string name="kitcard_read_failed">KITCard reading failed!</string>
-	<string name="kitcard_needs_reencode">Your KITCard needs to be converted to the new format for further use.</string>
+    <string name="activate_nfc">Please activate NFC and press Back to return to the application!</string>
+    <string name="kitcard_read_failed">KITCard reading failed!</string>
+    <string name="kitcard_needs_reencode">Your KITCard needs to be converted to the new format for further use.</string>
+    <string name="touch_device_help_text">To read your KITCard, please touch the device with it.</string>
+
 </resources>

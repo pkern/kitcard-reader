@@ -35,9 +35,9 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class ReadCardTask extends AsyncTask<Tag, Integer, Pair<ReadCardResult, Wallet>> {
-	private MainActivity mActivity;
+	private ScanActivity mActivity;
 
-	public ReadCardTask(MainActivity activity) {
+	public ReadCardTask(ScanActivity activity) {
 		super();
 		this.mActivity = activity;
 	}
