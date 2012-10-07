@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 // TODO: foreground NFC dispatch to LauncherActivity
 
-public class LauncherActivity extends Activity {
+public class MainActivity extends Activity {
 	private NfcAdapter adapter;
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFiltersArray;
