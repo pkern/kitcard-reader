@@ -26,7 +26,7 @@ enum CardType {
 	GUEST,
 	UNKNOWN;
 
-	public String toString(Resources res) {
+	public String toTranslatedString(Resources res) {
 		switch(this) {
 		case STUDENT:
 			return res.getString(R.string.student);

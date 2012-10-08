@@ -142,7 +142,7 @@ public class ScanActivity extends Activity {
     }
 
     public void updateCardType(CardType card_type) {
-    	updateCardType(card_type.toString(getResources()));
+    	updateCardType(card_type.toTranslatedString(getResources()));
     }
 
     public void updateCardType(String text) {
