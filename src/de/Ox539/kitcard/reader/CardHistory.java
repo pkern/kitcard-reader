@@ -20,6 +20,8 @@ package de.Ox539.kitcard.reader;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -42,8 +44,12 @@ public class CardHistory extends SQLiteOpenHelper {
 				"CREATE TABLE card_history (" +
 				"card_scan_datetime TEXT, " + // ISO8601 format in UTC
 				"card_number TEXT, " + // ASCII representation of the number
-				"card_type TEXT, " + // STUDENT/EMPLOYEE/GUEST/UNKNOWN
 				"card_value INTEGER)" // positive value in Euro cents
+				);
+		db.execSQL(
+				"CREATE TABLE cards (" +
+				"card_number TEXT, " + // ASCII representation of the number
+				"card_type TEXT)" // STUDENT/EMPLOYEE/GUEST/UNKNOWN
 				);
 	}
 
@@ -54,15 +60,38 @@ public class CardHistory extends SQLiteOpenHelper {
 	public static void insertScanResult(SQLiteDatabase db, String cardNumber, CardType cardType, double cardValue) {
 		db.beginTransaction();
 		try {
-			ContentValues values = new ContentValues();
+			ContentValues values;
+			
+			long count = DatabaseUtils.longForQuery(db, "SELECT COUNT(*) FROM cards WHERE card_number = ?", new String[] {cardNumber});
+			if (count == 0) {
+				// Insert card.
+				values = new ContentValues();
+				values.put("card_number", cardNumber);
+				values.put("card_type", cardType.name());
+				db.insert("cards", null, values);
+			}
+			
+			// Insert scan result record.
+			values = new ContentValues();
 			values.put("card_scan_datetime", (String)null); // TODO
 			values.put("card_number", cardNumber);
-			values.put("card_type", cardType.name());
 			values.put("card_value", (int)(cardValue * 100));
 			db.insert("card_history", null, values);
+			
 			db.setTransactionSuccessful();
 		} finally {
 			db.endTransaction();
 		}
+	}
+	
+	private static final String[] cardHistoryColumns = new String[] {"card_scan_datetime", "card_number", "card_type", "card_value"};
+	private static final String[] cardsColumns = new String[] {"card_number", "card_type"};
+	
+	public static Cursor getScanResults(SQLiteDatabase db) {
+		return db.query("card_history",	cardHistoryColumns,	null, null,	null, null,	"card_scan_datetime");
+	}
+	
+	public static Cursor getCards(SQLiteDatabase db) {
+		return db.query("cards", cardsColumns, null, null, null, null, "card_number");
 	}
 }
