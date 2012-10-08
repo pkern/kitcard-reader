@@ -29,6 +29,7 @@ package de.Ox539.kitcard.reader;
  */
 
 import de.Ox539.kitcard.reader.Wallet.ReadCardResult;
+import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.os.AsyncTask;
@@ -69,5 +70,8 @@ public class ReadCardTask extends AsyncTask<Tag, Integer, Pair<ReadCardResult, W
 		mActivity.updateBalance(wallet.getCurrentBalance());
 		mActivity.updateLastTransaction(wallet.getLastTransactionValue());
 		mActivity.updateCardType(wallet.getCardType());
+		
+		SQLiteDatabase db = (new CardHistory(mActivity)).getWritableDatabase();
+		CardHistory.insertScanResult(db, wallet.getCardNumber(), wallet.getCardType(), wallet.getCurrentBalance());
     }
 }
