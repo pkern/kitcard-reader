@@ -53,10 +53,10 @@ public class Wallet {
 	private static final byte[] CARD_NUMBER_KEY = {(byte)0x56, (byte)0x38, (byte)0x9f, (byte)0x80, (byte)0xa5, (byte)0xcf};
 	private static final byte[] WALLET_KEY = MifareClassic.KEY_MIFARE_APPLICATION_DIRECTORY;
 	private static final int WALLET_TCOUNT_KEY = 0x0404;
-	private static final int WALLET_FCC = 23;
-	private static final int WALLET_AC = 137;
-	private static final int WALLET_OLD_FCC = 3;
-	private static final int WALLET_OLD_AC = 56;
+	private static final int WALLET_FCC = 0x17;
+	private static final int WALLET_AC = 0x89;
+	private static final int WALLET_OLD_FCC = 0x3;
+	private static final int WALLET_OLD_AC = 0x38;
 
 	private final MifareClassic card;
 	private String cardNumber;
