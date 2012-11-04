@@ -42,12 +42,14 @@ public class CardHistory extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(
 				"CREATE TABLE card_history (" +
+				"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				"card_scan_datetime TEXT, " + // ISO8601 format in UTC
 				"card_number TEXT, " + // ASCII representation of the number
 				"card_value INTEGER)" // positive value in Euro cents
 				);
 		db.execSQL(
 				"CREATE TABLE cards (" +
+				"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				"card_number TEXT, " + // ASCII representation of the number
 				"card_type TEXT)" // STUDENT/EMPLOYEE/GUEST/UNKNOWN
 				);
@@ -84,8 +86,13 @@ public class CardHistory extends SQLiteOpenHelper {
 		}
 	}
 	
-	private static final String[] cardHistoryColumns = new String[] {"card_scan_datetime", "card_number", "card_type", "card_value"};
-	private static final String[] cardsColumns = new String[] {"card_number", "card_type"};
+	private static final String[] cardHistoryColumns = new String[] {"_id", "card_scan_datetime", "card_number", "card_value"};
+	private static final String[] cardsColumns = new String[] {"_id", "card_number", "card_type"};
+	
+	public static class COLUMNS {
+		public static final String CARD_NUMBER = "card_number";
+		public static final String CARD_VALUE = "card_value";
+	}
 	
 	public static Cursor getScanResults(SQLiteDatabase db) {
 		return db.query("card_history",	cardHistoryColumns,	null, null,	null, null,	"card_scan_datetime");
