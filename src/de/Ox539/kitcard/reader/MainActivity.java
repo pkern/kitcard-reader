@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 // TODO: foreground NFC dispatch to LauncherActivity
@@ -84,5 +85,9 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_launcher, menu);
         return true;
+    }
+    
+    public void onHistoryClick(MenuItem item) {
+    	startActivity(new Intent(this, HistoryActivity.class));
     }
 }

@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -177,5 +178,9 @@ public class ScanActivity extends Activity {
     public void onNewIntent(Intent intent) {
         setIntent(intent);
         resolveIntent(intent);
+    }
+    
+    public void onHistoryClick(MenuItem item) {
+    	startActivity(new Intent(this, HistoryActivity.class));
     }
 }
