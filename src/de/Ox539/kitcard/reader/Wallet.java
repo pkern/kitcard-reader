@@ -174,14 +174,20 @@ public class Wallet {
 			lastBalance = (double)front_value / 100;
 		}
 
-		int status = MifareUtils.byteToInt(data[38]) ^ 0x3e;
+		int status = MifareUtils.toUInt16LE(data[38], data[39]) ^ 0x3f3e;
 		Log.d(LOG_TAG, "Status: " + Integer.toString(status));
 		switch(status) {
 		case 100:
 			cardType = CardType.STUDENT;
 			break;
-		case 144:
+		case 400: // UB
 			cardType = CardType.EMPLOYEE;
+			break;
+		case 403: // GFB
+			cardType = CardType.EMPLOYEE;
+			break;
+		case 200:
+			cardType = CardType.GUEST;
 			break;
 		case 201:
 			cardType = CardType.GUEST;
