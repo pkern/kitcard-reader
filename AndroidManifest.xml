@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.Ox539.kitcard.reader"
-    android:versionCode="11"
-    android:versionName="1.0.1" >
+    android:versionCode="13"
+    android:versionName="1.0.2" >
 
     <uses-sdk
         android:minSdkVersion="10"
