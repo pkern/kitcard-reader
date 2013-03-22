@@ -6,6 +6,7 @@
     <string name="card_number">Kartennummer</string>
     <string name="balance">Kontostand</string>
     <string name="last_transaction">Letzte Transaktion</string>
+    <string name="card_issuer">Herausgeber</string>
     <string name="card_type">Kartentyp</string>
     <string name="details">Details</string>
 

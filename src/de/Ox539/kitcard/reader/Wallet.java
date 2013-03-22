@@ -202,6 +202,22 @@ public class Wallet {
 		return cardNumber;
 	}
 
+	public String getCardIssuer() {
+		if (cardNumber == null) {
+			return "Studentenwerk Karlsruhe";
+		} else if (cardNumber.startsWith("1580")) {
+			return "KIT";
+		} else if (cardNumber.startsWith("6760")) {
+			return "HS Karlsruhe";
+		} else if (cardNumber.startsWith("3680")) {
+			return "PH Karlsruhe";
+		} else if (cardNumber.startsWith("146")) { // HS-Schlüssel: 8175; legacy
+			return "DHBW Karlsruhe";
+		} else {
+			return cardNumber.substring(0, 4) ;
+		}
+	}
+	
 	public double getCurrentBalance() {
 		return currentBalance;
 	}

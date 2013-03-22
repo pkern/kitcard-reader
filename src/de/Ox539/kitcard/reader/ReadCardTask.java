@@ -68,6 +68,7 @@ public class ReadCardTask extends AsyncTask<Tag, Integer, Pair<ReadCardResult, W
    		mActivity.updateCardNumber(wallet.getCardNumber());
 		mActivity.updateBalance(wallet.getCurrentBalance());
 		mActivity.updateLastTransaction(wallet.getLastTransactionValue());
+		mActivity.updateCardIssuer(wallet.getCardIssuer());
 		mActivity.updateCardType(wallet.getCardType());
     }
 }

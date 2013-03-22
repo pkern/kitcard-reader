@@ -8,6 +8,7 @@
     <string name="card_number">Card number</string>
     <string name="balance">Balance</string>
     <string name="last_transaction">Last transaction</string>
+    <string name="card_issuer">Card issuer</string>
     <string name="card_type">Card type</string>
     <string name="details">Details</string>
 

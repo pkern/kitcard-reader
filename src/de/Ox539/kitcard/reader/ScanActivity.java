@@ -141,6 +141,14 @@ public class ScanActivity extends Activity {
     	lastTransaction = text;
     }
 
+    public void updateCardIssuer(String text) {
+    	cardIssuer = text;
+    	TextView tv = (TextView)findViewById(R.id.card_issuer);
+    	if (tv == null) // optional
+    		return;
+    	tv.setText(text);
+    }
+    
     public void updateCardType(CardType card_type) {
     	updateCardType(card_type.toTranslatedString(getResources()));
     }
@@ -156,6 +164,7 @@ public class ScanActivity extends Activity {
     private String lastTransaction;
     private String balance;
     private String cardNumber;
+    private String cardIssuer;
     private String cardType;
 
     @Override
@@ -163,6 +172,7 @@ public class ScanActivity extends Activity {
     	savedInstanceState.putString("CardNumber", cardNumber);
     	savedInstanceState.putString("Balance", balance);
     	savedInstanceState.putString("LastTransaction", lastTransaction);
+    	savedInstanceState.putString("CardIssuer", cardIssuer);
     	savedInstanceState.putString("CardType", cardType);
     }
 
@@ -171,6 +181,7 @@ public class ScanActivity extends Activity {
     	updateCardNumber(savedInstanceState.getString("CardNumber"));
     	updateBalance(savedInstanceState.getString("Balance"));
     	updateLastTransaction(savedInstanceState.getString("LastTransaction"));
+    	updateCardIssuer(savedInstanceState.getString("CardIssuer"));
     	updateCardType(savedInstanceState.getString("CardType"));
     }
 
