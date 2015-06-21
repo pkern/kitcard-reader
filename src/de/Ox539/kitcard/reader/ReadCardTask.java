@@ -43,7 +43,16 @@ public class ReadCardTask extends AsyncTask<Tag, Integer, Pair<ReadCardResult, W
 	}
 
 	protected Pair<ReadCardResult, Wallet> doInBackground(Tag... tags) {
-		MifareClassic card = MifareClassic.get(tags[0]);
+		MifareClassic card = null;
+		try {
+			card = MifareClassic.get(tags[0]);
+		} catch (NullPointerException e) {
+			/* Error while reading card. This problem occurs on HTC devices from the ONE series with Android Lollipop (status of June 2015)
+			 * Try to repair the tag.
+			 */
+			card = MifareClassic.get(MifareClassicHelper.repairTag(tags[0]));
+		}
+
 		if(card == null)
 			return new Pair<ReadCardResult, Wallet>(null, null);
 
