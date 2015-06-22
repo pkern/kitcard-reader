@@ -89,9 +89,9 @@ public class MifareUtils {
         int mc_idx = -1;
 
         for (int idx = 0; idx < sTechList.length; idx++) {
-            if (sTechList[idx] == NfcA.class.getName()) {
+            if (sTechList[idx].equals(NfcA.class.getName())) {
                 nfca_idx = idx;
-            } else if (sTechList[idx] == MifareClassic.class.getName()) {
+            } else if (sTechList[idx].equals(MifareClassic.class.getName())) {
                 mc_idx = idx;
             }
         }
