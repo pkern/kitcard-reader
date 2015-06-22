@@ -50,7 +50,7 @@ public class ReadCardTask extends AsyncTask<Tag, Integer, Pair<ReadCardResult, W
 			/* Error while reading card. This problem occurs on HTC devices from the ONE series with Android Lollipop (status of June 2015)
 			 * Try to repair the tag.
 			 */
-			card = MifareClassic.get(MifareClassicHelper.repairTag(tags[0]));
+			card = MifareClassic.get(MifareUtils.repairTag(tags[0]));
 		}
 
 		if(card == null)
