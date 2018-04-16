@@ -18,21 +18,22 @@
 
 package de.Ox539.kitcard.reader;
 
-import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
-import android.nfc.tech.MifareClassic;
-import android.os.Bundle;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
+import android.nfc.tech.MifareClassic;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Toast;
 
 // TODO: foreground NFC dispatch to LauncherActivity
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 	private NfcAdapter adapter;
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFiltersArray;
@@ -43,6 +44,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
         pendingIntent = PendingIntent.getActivity(this, 0,
                 new Intent("de.Ox539.kitcard.reader.TECH_DISCOVERED").addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         final IntentFilter intentFilter = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
@@ -50,6 +54,9 @@ public class MainActivity extends Activity {
         techListsArray = new String[][] { new String[] { MifareClassic.class.getName() } };
 
         NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+        if (manager == null) {
+            return;
+        }
         adapter = manager.getDefaultAdapter();
         if (!adapter.isEnabled())
         {
@@ -71,7 +78,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
-    	super.onResume();
+    	super.onPause();
 
     	// Debugger safeguard.
     	if(adapter == null)

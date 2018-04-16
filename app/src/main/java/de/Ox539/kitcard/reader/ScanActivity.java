@@ -18,21 +18,23 @@
 
 package de.Ox539.kitcard.reader;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ScanActivity extends Activity {
+public class ScanActivity extends AppCompatActivity {
 	private NfcAdapter adapter;
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFiltersArray;
@@ -42,6 +44,7 @@ public class ScanActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         euroFormat = new EuroFormat();
 
         pendingIntent = PendingIntent.getActivity(this, 0,
@@ -53,7 +56,18 @@ public class ScanActivity extends Activity {
         setContentView(R.layout.activity_scan);
         resolveIntent(getIntent());
         setTitle(getResources().getString(R.string.app_name));
+
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
         NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+        if (manager == null) {
+            return;
+        }
         adapter = manager.getDefaultAdapter();
         if (!adapter.isEnabled())
         {
@@ -86,7 +100,7 @@ public class ScanActivity extends Activity {
 
     @Override
     protected void onPause() {
-    	super.onResume();
+    	super.onPause();
 
     	// Debugger safeguard.
     	if(adapter == null)
@@ -98,7 +112,7 @@ public class ScanActivity extends Activity {
     private void resolveIntent(Intent intent) {
     	String action = intent.getAction();
     	if (!NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) &&
-    			!action.equals("de.Ox539.kitcard.reader.TECH_DISCOVERED")) {
+    			!"de.Ox539.kitcard.reader.TECH_DISCOVERED".equals(action)) {
     		// Not a tag invocation.
         	return;
         }
@@ -106,7 +120,7 @@ public class ScanActivity extends Activity {
     	intent.setAction("android.intent.action.MAIN");
     	Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
     	if(tag != null)
-    		(new ReadCardTask(this)).execute(new Tag[] { tag });
+    		(new ReadCardTask(this)).execute(tag);
     }
 
     public void updateCardNumber(String text) {
@@ -169,11 +183,12 @@ public class ScanActivity extends Activity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-    	savedInstanceState.putString("CardNumber", cardNumber);
-    	savedInstanceState.putString("Balance", balance);
-    	savedInstanceState.putString("LastTransaction", lastTransaction);
-    	savedInstanceState.putString("CardIssuer", cardIssuer);
-    	savedInstanceState.putString("CardType", cardType);
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("CardNumber", cardNumber);
+        savedInstanceState.putString("Balance", balance);
+        savedInstanceState.putString("LastTransaction", lastTransaction);
+        savedInstanceState.putString("CardIssuer", cardIssuer);
+        savedInstanceState.putString("CardType", cardType);
     }
 
     @Override
