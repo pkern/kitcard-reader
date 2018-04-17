@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         techListsArray = new String[][] { new String[] { MifareClassic.class.getName() } };
 
         NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+        if (manager == null) {
+            return;
+        }
         adapter = manager.getDefaultAdapter();
         if (!adapter.isEnabled())
         {

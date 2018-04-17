@@ -8,23 +8,19 @@
 
     <include
         layout="@layout/toolbar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/balances_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:paddingLeft="16sp"
         android:paddingRight="32sp"
-        android:paddingTop="16sp" >
-
-        <include
-            layout="@layout/toolbar_main"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+        android:paddingStart="16sp"
+        android:paddingEnd="32sp"
+        android:paddingTop="16sp">
 
         <TextView
             android:id="@+id/textView5"
